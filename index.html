@@ -15,11 +15,7 @@
             color: #2c3e50;
             overflow-x: hidden;
         }
-        .container { 
-            max-width: 1100px; 
-            margin: 0 auto; 
-            padding: 20px; 
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         .header {
             text-align: center;
             padding: 25px;
@@ -28,22 +24,15 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             margin-bottom: 25px;
         }
-        h1 { 
-            color: #1e88e5; 
-            font-size: 2.9em; 
-            margin: 10px 0; 
-        }
-        .welcome { 
-            font-size: 1.6em; 
-            color: #1565c0; 
-        }
+        h1 { color: #1e88e5; font-size: 2.9em; margin: 10px 0; }
+        .welcome { font-size: 1.6em; color: #1565c0; }
         .stage {
             background: white;
             border-radius: 25px;
             padding: 35px;
             margin: 25px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            min-height: 450px;
+            min-height: 480px;
         }
         button {
             background: #4caf50;
@@ -56,15 +45,8 @@
             margin: 12px;
             transition: all 0.3s;
         }
-        button:hover { 
-            background: #388e3c; 
-            transform: scale(1.06); 
-        }
-        button:disabled { 
-            background: #bbbbbb; 
-            cursor: not-allowed; 
-            transform: none; 
-        }
+        button:hover { background: #388e3c; transform: scale(1.06); }
+        button:disabled { background: #bbbbbb; cursor: not-allowed; transform: none; }
         .character {
             display: inline-block;
             background: #fff;
@@ -85,14 +67,17 @@
         }
         input {
             font-family: 'Cairo', sans-serif;
+            text-align: center;
         }
+        .correct { color: #4caf50; font-weight: bold; }
+        .feedback { font-size: 1.6em; margin: 20px 0; min-height: 60px; }
     </style>
 </head>
 <body>
     <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ ملء الشاشة</button>
 
     <div class="container">
-        <!-- شاشة إدخال الأسماء -->
+        <!-- شاشة الأسماء -->
         <div id="nameScreen" class="stage">
             <h1>مرحبا بك في درس الجمع الجميل 🌟</h1>
             <p class="welcome">لنبدأ رحلتنا معًا باسم الله...</p>
@@ -117,7 +102,7 @@
         <!-- الدرس الرئيسي -->
         <div id="lessonScreen" style="display: none;">
             <div class="header">
-                <h1 id="greeting">مع الله نجمع حتى ١٨</h1>
+                <h1 id="greeting">مع الله نجمع حتى ١٨ 🌟</h1>
                 <p id="welcomeText" class="welcome"></p>
             </div>
 
@@ -141,7 +126,10 @@
         let parentName = "";
         let currentStage = 0;
         let timer = null;
-        let starCount = 0;
+        let starsCollected = 0;
+        let correctAnswers = 0;
+        let totalAttempts = 0;
+        let currentDifficulty = 1; // 1 = سهل، 2 = متوسط، 3 = أصعب
 
         const stages = [
             {
@@ -153,34 +141,40 @@
             },
             {
                 title: "المرحلة الثانية: نجمع حتى ١٠",
-                content: `<h2>دعنا نجرب معًا:</h2>
-                          <div style="font-size:2.6em; text-align:center; margin:50px 0;">
-                              <span>٣ + ٤ = </span>
-                              <input type="text" id="q1" maxlength="2" style="width:90px; font-size:2em; text-align:center; border:2px solid #4caf50; border-radius:12px;">
+                content: `<h2>دعنا نجرب معًا يا {student}:</h2>
+                          <div style="font-size:2.6em; text-align:center; margin:40px 0;">
+                              <span id="question">٣ + ٤ = </span>
+                              <input type="text" id="answerInput" maxlength="2" style="width:100px; font-size:2em; text-align:center; border:3px solid #4caf50; border-radius:12px;">
                           </div>
-                          <button onclick="checkAnswer(1,7)">تحقق من الإجابة</button>`
+                          <div class="feedback" id="feedback"></div>
+                          <button onclick="checkMathAnswer()">تحقق من إجابتي</button>`
             },
             {
                 title: "المرحلة الثالثة: لعبة النجوم السحرية ✨",
-                content: `<h2>ساعد {student} في جمع النجوم حتى ١٨!</h2>
-                          <p id="gameScore" style="font-size:2.2em; color:#ff9800;">النتيجة: ٠</p>
-                          <div id="starsContainer" style="font-size:4.5em; text-align:center; min-height:180px; line-height:1.2;"></div>
-                          <button onclick="addStar()">أضف نجمة ✨</button>
-                          <button onclick="resetStars()">ابدأ من جديد</button>`
+                content: `<h2>ساعدني يا {student} في جمع النجوم بالجمع الصحيح!</h2>
+                          <p id="gameScore" style="font-size:2.2em; color:#ff9800;">النجوم المجموعة: ٠ / ١٨</p>
+                          <div id="starsContainer" style="font-size:4.8em; text-align:center; min-height:200px; line-height:1.1;"></div>
+                          <div style="margin:25px 0;">
+                              <span id="gameQuestion" style="font-size:2.2em;"></span>
+                              <input type="text" id="gameAnswer" maxlength="2" style="width:90px; font-size:2em; text-align:center; border:3px solid #ff9800; border-radius:12px;">
+                          </div>
+                          <button onclick="checkGameAnswer()">أجب وأضف نجمة</button>
+                          <button onclick="resetGame()">ابدأ من جديد</button>`
             },
             {
-                title: "المرحلة الرابعة: تطبيق في الدفتر الحقيقي",
-                content: `<h2>الآن خذ دفترك الحقيقي واكتب معي بخط جميل:</h2>
-                          <p style="font-size:1.7em; margin:20px 0;">١. ٥ + ٦ = ؟</p>
-                          <p style="font-size:1.7em; margin:20px 0;">٢. ٨ + ٧ = ؟</p>
-                          <p style="font-size:1.7em; margin:20px 0;">٣. ٩ + ٩ = ؟</p>
+                title: "المرحلة الرابعة: تطبيق في دفترك الحقيقي",
+                content: `<h2>الآن خذ دفترك الحقيقي واكتب بخط جميل يا {student}:</h2>
+                          <p style="font-size:1.7em; margin:25px 0;">١. ٥ + ٦ = ؟</p>
+                          <p style="font-size:1.7em; margin:25px 0;">٢. ٨ + ٧ = ؟</p>
+                          <p style="font-size:1.7em; margin:25px 0;">٣. ٩ + ٩ = ؟</p>
                           <p style="color:#4caf50; font-size:1.5em;">اكتب الإجابات في دفترك ثم اضغط "التالي" لنرى معًا</p>`
             },
             {
-                title: "الختام: دعاء وتشجيع",
+                title: "الختام: دعاء وتقرير تربوي",
                 content: `<h2 style="color:#1565c0; text-align:center;">بارك الله فيك يا {student}!</h2>
                           <p style="font-size:1.9em; text-align:center;">كل محاولة قمت بها اليوم هي عبادة جميلة يراها الله ويباركها.</p>
                           <p style="font-size:1.7em; text-align:center;">{parent} فخور بك جدًا، وأنا فخور بك أيضًا.</p>
+                          <div id="report" style="background:#f0f8ff; padding:20px; border-radius:20px; margin:30px 0; font-size:1.4em;"></div>
                           <p style="font-size:2.2em; color:#4caf50; text-align:center;">الله معك دائمًا، والصبر مفتاح الفهم 🌟</p>`
             }
         ];
@@ -199,6 +193,10 @@
             document.getElementById("welcomeText").innerHTML = `مرحبا ${studentName}، ${parentName} معنا اليوم!`;
             
             currentStage = 0;
+            starsCollected = 0;
+            correctAnswers = 0;
+            totalAttempts = 0;
+            currentDifficulty = 1;
             showStage();
         }
 
@@ -217,6 +215,11 @@
             timer = setTimeout(() => {
                 document.getElementById("nextBtn").disabled = false;
             }, 10000);
+
+            // تهيئة المرحلة الثانية والثالثة
+            if (currentStage === 1) generateNewMathQuestion();
+            if (currentStage === 2) generateNewGameQuestion();
+            if (currentStage === 4) showFinalReport();
         }
 
         function nextStage() {
@@ -228,40 +231,89 @@
             showStage();
         }
 
-        function checkAnswer(qNum, correct) {
-            const input = document.getElementById("q1");
-            if (!input) return;
+        // مرحلة ٢: أسئلة الجمع مع تكييف
+        let currentMathAnswer = 0;
+        function generateNewMathQuestion() {
+            const a = Math.floor(Math.random() * (5 + currentDifficulty * 3)) + 1;
+            const b = Math.floor(Math.random() * (5 + currentDifficulty * 3)) + 1;
+            currentMathAnswer = a + b;
+            document.getElementById("question").textContent = `${a} + ${b} = `;
+            document.getElementById("answerInput").value = "";
+            document.getElementById("feedback").innerHTML = "";
+        }
+
+        function checkMathAnswer() {
+            totalAttempts++;
+            const input = parseInt(document.getElementById("answerInput").value);
+            const feedbackDiv = document.getElementById("feedback");
             
-            if (parseInt(input.value) === correct) {
-                alert(`✅ ممتاز يا ${studentName}! الله يبارك جهدك`);
+            if (input === currentMathAnswer) {
+                correctAnswers++;
+                feedbackDiv.innerHTML = `<span class="correct">✅ ممتاز يا ${studentName}! الله يبارك جهدك</span>`;
+                // زيادة الصعوبة تدريجيًا
+                if (correctAnswers % 3 === 0 && currentDifficulty < 3) currentDifficulty++;
+                setTimeout(() => generateNewMathQuestion(), 1800);
             } else {
-                alert(`👍 حاول مرة أخرى يا بطل، كل محاولة ترفعك درجة`);
+                feedbackDiv.innerHTML = `👍 حاول مرة أخرى يا بطل، كل محاولة ترفعك درجة`;
             }
         }
 
-        function addStar() {
-            starCount = Math.min(starCount + 1, 18);
-            document.getElementById("gameScore").textContent = `النتيجة: ${starCount}`;
-            document.getElementById("starsContainer").innerHTML += "✨ ";
+        // مرحلة ٣: لعبة النجوم مع جمع حقيقي
+        let currentGameAnswer = 0;
+        function generateNewGameQuestion() {
+            const a = Math.floor(Math.random() * 9) + 2;
+            const b = Math.floor(Math.random() * 9) + 2;
+            currentGameAnswer = a + b;
+            document.getElementById("gameQuestion").innerHTML = `كم تساوي: <b>${a} + ${b}</b> ؟`;
+            document.getElementById("gameAnswer").value = "";
+        }
+
+        function checkGameAnswer() {
+            totalAttempts++;
+            const input = parseInt(document.getElementById("gameAnswer").value);
             
-            if (starCount === 18) {
-                alert(`🎉 رائع جدًا يا ${studentName}! جمعت ١٨ نجمة! الله يباركك`);
+            if (input === currentGameAnswer) {
+                correctAnswers++;
+                starsCollected = Math.min(starsCollected + 1, 18);
+                document.getElementById("gameScore").textContent = `النجوم المجموعة: ${starsCollected} / ١٨`;
+                document.getElementById("starsContainer").innerHTML += "✨ ";
+                
+                if (starsCollected === 18) {
+                    alert(`🎉 رائع جدًا يا ${studentName}! جمعت ١٨ نجمة! الله يباركك`);
+                }
+                setTimeout(() => generateNewGameQuestion(), 1500);
+            } else {
+                alert(`حاول مرة أخرى يا بطل، أنت قريب جدًا!`);
             }
         }
 
-        function resetStars() {
-            starCount = 0;
-            document.getElementById("gameScore").textContent = `النتيجة: ٠`;
+        function resetGame() {
+            starsCollected = 0;
+            document.getElementById("gameScore").textContent = `النجوم المجموعة: ٠ / ١٨`;
             document.getElementById("starsContainer").innerHTML = "";
+            generateNewGameQuestion();
+        }
+
+        function showFinalReport() {
+            const accuracy = totalAttempts > 0 ? Math.round((correctAnswers / totalAttempts) * 100) : 100;
+            const reportHTML = `
+                <strong>تقرير الحصة التربوي لـ ${parentName}:</strong><br><br>
+                • عدد المحاولات: ${totalAttempts}<br>
+                • الإجابات الصحيحة: ${correctAnswers}<br>
+                • نسبة التقدم: ${accuracy}٪<br>
+                • النجوم المجموعة: ${starsCollected} من ١٨<br><br>
+                يا ${studentName}، أنت رائع! كل محاولة كانت عبادة جميلة.
+            `;
+            document.getElementById("report").innerHTML = reportHTML;
         }
 
         function showHelp(type) {
             if (type === "nour") {
-                alert(`🧠 الحكيم نور يقول:\nيا ${studentName}، الصبر طريق الفهم، والله معك في كل خطوة`);
+                alert(`🧠 الحكيم نور يقول:\nيا ${studentName}، الصبر طريق الفهم، والله معك في كل خطوة. خذ وقتك وستفهم بإذن الله.`);
             } else if (type === "teacher") {
-                alert(`📖 المعلم محمد يقول:\nدعنا نجرب ببطء: ٥ + ٣ = ٨\nهل تريد مثالاً آخر؟`);
+                alert(`📖 المعلم محمد يقول:\nدعنا نجرب ببطء: ٥ + ٣ = ٨\nهل تريد أن أشرح لك مرة أخرى؟`);
             } else if (type === "parent") {
-                alert(`❤️ ${parentName} يقول:\nأنا فخور بك جدًا يا ${studentName}، استمر أنت رائع!`);
+                alert(`❤️ ${parentName} يقول:\nأنا فخور بك جدًا يا ${studentName}، استمر أنت رائع! الله يحفظك.`);
             }
         }
 
