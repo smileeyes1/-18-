@@ -7,39 +7,26 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
         
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #e0f7fa, #fffde7);
-            margin: 0;
-            padding: 0;
-            color: #2c3e50;
-            overflow-x: hidden;
-        }
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-        .header { text-align: center; padding: 25px; background: rgba(255,255,255,0.95); border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        h1 { color: #1e88e5; font-size: 2.9em; margin: 10px 0; }
-        .welcome { font-size: 1.6em; color: #1565c0; }
-        .stage { background: white; border-radius: 25px; padding: 35px; margin: 25px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); min-height: 550px; position: relative; }
-        button { background: #4caf50; color: white; border: none; padding: 16px 35px; font-size: 1.35em; border-radius: 50px; cursor: pointer; margin: 12px; transition: all 0.3s; }
-        button:hover { background: #388e3c; transform: scale(1.06); }
+        body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #e0f7fa, #fffde7); margin: 0; padding: 0; color: #2c3e50; overflow-x: hidden; }
+        .container { max-width: 1150px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 30px; background: rgba(255,255,255,0.97); border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.12); margin-bottom: 30px; }
+        h1 { color: #1e88e5; font-size: 3em; margin: 12px 0; }
+        .welcome { font-size: 1.7em; color: #1565c0; }
+        .stage { background: white; border-radius: 30px; padding: 40px; margin: 30px 0; box-shadow: 0 15px 40px rgba(0,0,0,0.12); min-height: 600px; position: relative; }
+        button { background: #4caf50; color: white; border: none; padding: 18px 40px; font-size: 1.4em; border-radius: 50px; cursor: pointer; margin: 15px; transition: all 0.4s; }
+        button:hover { background: #388e3c; transform: scale(1.08); }
         button:disabled { background: #bbbbbb; cursor: not-allowed; }
-        .character { display: inline-block; background: #fff; padding: 18px 30px; border-radius: 50px; margin: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); cursor: pointer; font-size: 1.15em; }
-        .fullscreen-btn { position: fixed; top: 20px; left: 20px; z-index: 1000; padding: 12px 20px; font-size: 1.2em; }
-        input { 
-            font-family: 'Cairo', sans-serif; 
-            text-align: center; 
-            font-size: 2.3em; 
-            width: 130px;
-            border: 3px solid #4caf50; 
-            border-radius: 15px;
-            padding: 8px;
-        }
-        .progress-bar { height: 28px; background: #e0f2f1; border-radius: 50px; overflow: hidden; margin: 15px 0; }
-        .progress { height: 100%; background: linear-gradient(90deg, #4caf50, #8bc34a); transition: width 0.8s ease; }
-        .feedback { font-size: 1.75em; margin: 25px 0; min-height: 80px; text-align: center; }
-        .stars { font-size: 2.3em; }
-        .ten-frame { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 280px; margin: 20px auto; }
-        .frame-cell { width: 45px; height: 45px; border: 3px solid #81c784; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2em; }
+        .character { display: inline-block; background: #fff; padding: 20px 35px; border-radius: 50px; margin: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); cursor: pointer; font-size: 1.2em; transition: all 0.3s; }
+        .character:hover { transform: scale(1.05); }
+        .fullscreen-btn { position: fixed; top: 25px; left: 25px; z-index: 1000; padding: 14px 25px; font-size: 1.25em; }
+        input { font-family: 'Cairo', sans-serif; text-align: center; font-size: 2.4em; width: 145px; border: 4px solid #4caf50; border-radius: 18px; padding: 10px; }
+        .progress-bar { height: 32px; background: #e0f2f1; border-radius: 50px; overflow: hidden; margin: 20px 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        .progress { height: 100%; background: linear-gradient(90deg, #4caf50, #8bc34a); transition: width 1s ease; }
+        .feedback { font-size: 1.8em; margin: 30px 0; min-height: 95px; text-align: center; line-height: 1.45; }
+        .stars { font-size: 2.5em; }
+        .ten-frame { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; width: 330px; margin: 25px auto; }
+        .frame-cell { width: 54px; height: 54px; border: 4px solid #81c784; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 2.3em; background: #f1f8e9; transition: all 0.4s; }
+        .filled { background: #c8e6c9 !important; transform: scale(1.12); box-shadow: 0 0 12px #4caf50; }
     </style>
 </head>
 <body>
@@ -50,38 +37,38 @@
             <h1>مرحبا بك في درس الجمع الجميل 🌟</h1>
             <p class="welcome">لنبدأ رحلتنا معًا باسم الله...</p>
             
-            <div style="margin: 45px 0;">
-                <label style="font-size: 1.5em; display: block; margin: 18px 0 8px;">اسم الطالب الغالي:</label>
-                <input type="text" id="studentName" placeholder="اكتب اسمك هنا..." style="width: 85%; padding: 18px; border-radius: 18px; border: 3px solid #4caf50;">
+            <div style="margin: 50px 0;">
+                <label style="font-size: 1.6em; display: block; margin: 20px 0 10px;">اسم الطالب الغالي:</label>
+                <input type="text" id="studentName" placeholder="اكتب اسمك هنا..." style="width: 85%; padding: 20px; border-radius: 20px; border: 4px solid #4caf50;">
             </div>
             
-            <div style="margin: 45px 0;">
-                <label style="font-size: 1.5em; display: block; margin: 18px 0 8px;">اسم ولي الأمر الكريم:</label>
-                <input type="text" id="parentName" placeholder="اسم الأب أو الأم..." style="width: 85%; padding: 18px; border-radius: 18px; border: 3px solid #4caf50;">
+            <div style="margin: 50px 0;">
+                <label style="font-size: 1.6em; display: block; margin: 20px 0 10px;">اسم ولي الأمر الكريم:</label>
+                <input type="text" id="parentName" placeholder="اسم الأب أو الأم..." style="width: 85%; padding: 20px; border-radius: 20px; border: 4px solid #4caf50;">
             </div>
             
-            <button onclick="startLesson()" style="font-size: 1.7em; padding: 22px 60px;">ابدأ الحصة الآن 🌟</button>
+            <button onclick="startLesson()" style="font-size: 1.8em; padding: 25px 70px;">ابدأ الحصة الآن 🌟</button>
         </div>
 
         <div id="lessonScreen" style="display: none;">
             <div class="header">
                 <h1 id="greeting">مع الله نجمع حتى ١٨ 🌟</h1>
                 <p id="welcomeText" class="welcome"></p>
-                <div style="margin: 15px 0;">
-                    <div style="font-size:1.35em; color:#1565c0;">نجوم الجهد والبركة</div>
+                <div style="margin: 20px 0;">
+                    <div style="font-size:1.4em; color:#1565c0;">نجوم الجهد والبركة</div>
                     <div class="progress-bar"><div id="progress" class="progress" style="width:0%"></div></div>
                     <div id="starCount" class="stars">✨ ٠ / ٢٠</div>
-                    <div id="level" style="font-size:1.2em; color:#388e3c; margin-top:8px;"></div>
+                    <div id="level" style="font-size:1.3em; color:#388e3c; margin-top:10px; font-weight:600;"></div>
                 </div>
             </div>
 
             <div class="stage" id="stageContent"></div>
 
-            <div style="text-align: center; margin: 25px 0;">
+            <div style="text-align: center; margin: 30px 0;">
                 <button id="nextBtn" onclick="nextStage()" disabled>التالي →</button>
             </div>
 
-            <div style="text-align: center; margin-top: 35px;">
+            <div style="text-align: center; margin-top: 40px;">
                 <div class="character" onclick="showHelp('nour')">🧠 الحكيم نور</div>
                 <div class="character" onclick="showHelp('teacher')">📖 المعلم محمد</div>
                 <div class="character" onclick="showHelp('parent')">❤️ الأم / الأب</div>
@@ -90,14 +77,11 @@
     </div>
 
     <script>
-        // تحويل الأرقام
         function toWesternNum(str) {
             const eastern = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
             const western = ['0','1','2','3','4','5','6','7','8','9'];
             let result = str;
-            for (let i = 0; i < 10; i++) {
-                result = result.replace(new RegExp(eastern[i], 'g'), western[i]);
-            }
+            for (let i = 0; i < 10; i++) result = result.replace(new RegExp(eastern[i], 'g'), western[i]);
             return parseInt(result) || 0;
         }
 
@@ -116,11 +100,11 @@
         let timer = null;
 
         const stages = [
-            { title: "المرحلة الأولى: ما هو الجمع؟", content: `<h2 style="color:#1565c0;">يا {student} الغالي، الجمع يعني أن نضع الأشياء مع بعضها</h2><p style="font-size:1.5em;">مثال: تفاحة 🍎 + تفاحة 🍎 = كم تفاحة؟</p><p style="font-size:2.8em; color:#4caf50; text-align:center; margin:40px 0;">١ + ١ = ٢</p><p style="font-size:1.4em;">الله يبارك لك كل محاولة جميلة ❤️</p>` },
-            { title: "المرحلة الثانية: نجمع حتى ١٠", content: `<h2>دعنا نجرب معًا يا {student}:</h2><div style="font-size:2.6em; text-align:center; margin:40px 0;"><span id="question">٣ + ٤ = </span><input type="text" id="answerInput" maxlength="2"></div><div class="feedback" id="feedback"></div><button onclick="checkMathAnswer()">تحقق من إجابتي</button>` },
-            { title: "المرحلة الثالثة: لعبة النجوم السحرية ✨", content: `<h2>ساعدني يا {student} في جمع النجوم بالجمع الصحيح!</h2><p id="gameScore" style="font-size:2.2em; color:#ff9800;">النجوم: ٠</p><div id="starsContainer" style="font-size:4.5em; text-align:center; min-height:180px;"></div><div id="tenFrame" class="ten-frame"></div><div style="margin:25px 0;"><span id="gameQuestion" style="font-size:2.2em;"></span><input type="text" id="gameAnswer" maxlength="2"></div><button onclick="checkGameAnswer()">أجب وأضف نجمة</button><button onclick="resetGame()">ابدأ من جديد</button>` },
-            { title: "المرحلة الرابعة: تطبيق في دفترك الحقيقي", content: `<h2>خذ دفترك واكتب بخط جميل يا {student}:</h2><p style="font-size:1.7em; margin:25px 0;">١. ٥ + ٦ = ؟</p><p style="font-size:1.7em; margin:25px 0;">٢. ٨ + ٧ = ؟</p><p style="font-size:1.7em; margin:25px 0;">٣. ٩ + ٩ = ؟</p><p style="color:#4caf50; font-size:1.5em;">اكتب ثم اضغط "أنا انتهيت من الدفتر"</p><button onclick="finishNotebook()">أنا انتهيت من الدفتر</button>` },
-            { title: "الختام: دعاء وتقرير تربوي", content: `<h2 style="color:#1565c0; text-align:center;">بارك الله فيك يا {student}!</h2><p style="font-size:1.9em; text-align:center;">كل محاولة كانت عبادة يراها الله ويباركها.</p><div id="finalReport" style="background:#f0f8ff; padding:25px; border-radius:20px; margin:30px 0; font-size:1.45em;"></div><p style="font-size:2.2em; color:#4caf50; text-align:center;">الله معك دائمًا، والصبر مفتاح الفهم 🌟</p>` }
+            { title: "المرحلة الأولى: ما هو الجمع؟", content: `<h2 style="color:#1565c0;">يا {student} الغالي، الجمع يعني أن نضع الأشياء مع بعضها كما أمرنا الله بالتعاون والمحبة</h2><p style="font-size:1.6em;">مثال: تفاحة 🍎 + تفاحة 🍎 = كم تفاحة؟</p><p style="font-size:2.9em; color:#4caf50; text-align:center; margin:45px 0;">١ + ١ = ٢</p><p style="font-size:1.5em;">كل محاولة تقوم بها هي عبادة يراها الله ويباركها ❤️</p>` },
+            { title: "المرحلة الثانية: نجمع حتى ١٠", content: `<h2>دعنا نجرب معًا يا {student} بخطوات هادئة وجميلة:</h2><div style="font-size:2.7em; text-align:center; margin:45px 0;"><span id="question">٣ + ٤ = </span><input type="text" id="answerInput" maxlength="2"></div><div class="feedback" id="feedback"></div><button onclick="checkMathAnswer()">تحقق من إجابتي</button>` },
+            { title: "المرحلة الثالثة: لعبة النجوم السحرية مع إطار العشرة ✨", content: `<h2>ساعدني يا {student} في جمع النجوم باستخدام إطار العشرة الجميل!</h2><p id="gameScore" style="font-size:2.3em; color:#ff9800;">النجوم المجموعة: ٠</p><div id="starsContainer" style="font-size:4.8em; text-align:center; min-height:200px;"></div><div id="tenFrame" class="ten-frame"></div><div style="margin:30px 0; font-size:2.3em; text-align:center;"><span id="gameQuestion"></span><input type="text" id="gameAnswer" maxlength="2"></div><button onclick="checkGameAnswer()">أجب وأضف نجمة</button><button onclick="resetGame()">ابدأ من جديد</button>` },
+            { title: "المرحلة الرابعة: تطبيق في دفترك الحقيقي", content: `<h2>خذ دفترك الحقيقي واكتب بخط جميل يا {student}:</h2><p style="font-size:1.8em; margin:30px 0;">١. ٥ + ٦ = ؟</p><p style="font-size:1.8em; margin:30px 0;">٢. ٨ + ٧ = ؟</p><p style="font-size:1.8em; margin:30px 0;">٣. ٩ + ٩ = ؟</p><p style="color:#4caf50; font-size:1.6em;">اكتب ثم اضغط الزر أدناه</p><button onclick="finishNotebook()">أنا انتهيت من الكتابة في الدفتر</button>` },
+            { title: "الختام: دعاء وتقرير تربوي", content: `<h2 style="color:#1565c0; text-align:center;">بارك الله فيك يا {student}!</h2><p style="font-size:2em; text-align:center;">كل محاولة اليوم كانت عبادة جميلة يراها الله ويباركها.</p><div id="finalReport" style="background:#f0f8ff; padding:30px; border-radius:25px; margin:35px 0; font-size:1.5em; line-height:1.7;"></div><p style="font-size:2.3em; color:#4caf50; text-align:center;">الله معك دائمًا، والصبر مفتاح الفهم والنجاح 🌟</p>` }
         ];
 
         function startLesson() {
@@ -143,9 +127,8 @@
             const percent = Math.min((effortStars / 20) * 100, 100);
             document.getElementById("progress").style.width = percent + "%";
             document.getElementById("starCount").innerHTML = `✨ ${toEasternNum(Math.floor(effortStars))} / ٢٠`;
-            
-            let levelText = effortStars < 8 ? "مبتدئ" : effortStars < 15 ? "ماهر" : "بطل الجمع";
-            document.getElementById("level").textContent = `المستوى: ${levelText}`;
+            let level = effortStars < 7 ? "مبتدئ" : effortStars < 14 ? "ماهر" : "بطل الجمع 🌟";
+            document.getElementById("level").textContent = `المستوى: ${level}`;
         }
 
         function addEffortStar(isCorrect) {
@@ -160,10 +143,9 @@
             totalAttempts++;
             updateProgress();
 
-            // تكييف تلقائي
             if (consecutiveErrors >= 3 && currentDifficulty > 1) {
                 currentDifficulty--;
-                alert(`لا تقلق يا ${studentName}، سنبدأ بأسهل قليلاً. الله معك`);
+                alert(`لا تقلق يا ${studentName}، سنبدأ بأسهل قليلاً معًا. الله معك`);
             }
         }
 
@@ -175,7 +157,7 @@
 
             document.getElementById("nextBtn").disabled = true;
             clearTimeout(timer);
-            timer = setTimeout(() => { document.getElementById("nextBtn").disabled = false; }, 10000);
+            timer = setTimeout(() => document.getElementById("nextBtn").disabled = false, currentStage === 2 ? 15000 : 10000);
 
             if (currentStage === 1) generateMathQuestion();
             if (currentStage === 2) { generateGameQuestion(); drawTenFrame(0); }
@@ -184,20 +166,20 @@
         }
 
         function nextStage() {
-            if (currentStage < 3) {
-                const feeling = prompt(`يا ${studentName}، كيف تشعر بعد هذه المرحلة؟ (اكتب 😊 أو 🙂 أو 🥺)`);
-                if (feeling) alert(`شكرًا لك على مشاركة شعورك ❤️ الله يجعل قلبك مطمئنًا دائمًا`);
+            if (currentStage < 4) {
+                const feeling = prompt(`يا ${studentName}، كيف تشعر الآن؟ (😊 أو 🙂 أو 🥺)`);
+                if (feeling) alert(`شكرًا لك على التعبير عن مشاعرك يا بطل، الله يجعل قلبك مطمئنًا دائمًا`);
             }
             currentStage++;
             if (currentStage >= stages.length) currentStage = stages.length - 1;
             showStage();
         }
 
-        // مرحلة ٢
         let currentMathAns = 0;
         function generateMathQuestion() {
-            const a = Math.floor(Math.random() * (5 + currentDifficulty*4)) + 1;
-            const b = Math.floor(Math.random() * (5 + currentDifficulty*4)) + 1;
+            const max = 4 + currentDifficulty * 5;
+            const a = Math.floor(Math.random() * max) + 2;
+            const b = Math.floor(Math.random() * max) + 2;
             currentMathAns = a + b;
             document.getElementById("question").textContent = `${toEasternNum(a)} + ${toEasternNum(b)} = `;
             document.getElementById("answerInput").value = "";
@@ -205,26 +187,23 @@
         }
 
         function checkMathAnswer() {
-            const inputStr = document.getElementById("answerInput").value.trim();
-            const inputNum = toWesternNum(inputStr);
+            const inputNum = toWesternNum(document.getElementById("answerInput").value.trim());
             const fb = document.getElementById("feedback");
 
             if (inputNum === currentMathAns) {
                 addEffortStar(true);
-                fb.innerHTML = `✅ ممتاز يا ${studentName}! محاولتك عبادة جميلة، الله يباركها ✨`;
-                if (effortStars % 4 === 0 && currentDifficulty < 3) currentDifficulty++;
+                fb.innerHTML = `✅ ممتاز يا ${studentName}! محاولتك عبادة جميلة، الله يبارك صبرك ويرفع درجتك ✨`;
                 setTimeout(generateMathQuestion, 2200);
             } else {
                 addEffortStar(false);
-                fb.innerHTML = `👍 حاول مرة أخرى يا بطل، كل خطوة تقربك والنبي ﷺ يحب القوي الأمين`;
+                fb.innerHTML = `👍 حاول مرة أخرى يا بطل، كل خطوة تقربك والله معك`;
             }
         }
 
-        // مرحلة ٣ - لعبة مع Ten-Frame
         let currentGameAns = 0;
         function generateGameQuestion() {
-            const a = Math.floor(Math.random()*8)+3;
-            const b = Math.floor(Math.random()*8)+3;
+            const a = Math.floor(Math.random() * 9) + 3;
+            const b = Math.floor(Math.random() * 9) + 3;
             currentGameAns = a + b;
             document.getElementById("gameQuestion").innerHTML = `${toEasternNum(a)} + ${toEasternNum(b)} = `;
             document.getElementById("gameAnswer").value = "";
@@ -234,25 +213,24 @@
         function drawTenFrame(filled) {
             let html = '';
             for (let i = 0; i < 10; i++) {
-                html += `<div class="frame-cell">${i < filled ? '●' : ''}</div>`;
+                html += `<div class="frame-cell \( {i < filled ? 'filled' : ''}"> \){i < filled ? '●' : ''}</div>`;
             }
             document.getElementById("tenFrame").innerHTML = html;
         }
 
         function checkGameAnswer() {
-            const inputStr = document.getElementById("gameAnswer").value.trim();
-            const inputNum = toWesternNum(inputStr);
+            const inputNum = toWesternNum(document.getElementById("gameAnswer").value.trim());
 
             if (inputNum === currentGameAns) {
                 addEffortStar(true);
                 document.getElementById("starsContainer").innerHTML += "✨ ";
-                document.getElementById("gameScore").textContent = `النجوم: ${toEasternNum(Math.floor(effortStars))}`;
-                alert(`🎉 رائع جدًا! الله يبارك جهدك يا ${studentName}`);
-                drawTenFrame(currentGameAns > 10 ? 10 : currentGameAns);
+                document.getElementById("gameScore").textContent = `النجوم المجموعة: ${toEasternNum(Math.floor(effortStars))}`;
+                drawTenFrame(Math.min(10, currentGameAns));
+                alert(`🎉 أحسنت يا ${studentName}! استخدمت إطار العشرة بذكاء، الله يبارك عقلك`);
                 setTimeout(generateGameQuestion, 1800);
             } else {
                 addEffortStar(false);
-                alert(`حاول مرة أخرى يا غالي، أنت قريب والصبر مفتاح الفهم`);
+                alert(`حاول مرة أخرى يا غالي، انظر إلى إطار العشرة وعد ببطء... أنت قريب`);
             }
         }
 
@@ -263,31 +241,28 @@
 
         function finishNotebook() {
             addEffortStar(true);
-            alert(`بارك الله فيك يا ${studentName}! كتابتك في الدفتر جهد مبارك، الله يباركه 🌟`);
+            const feeling = prompt(`يا ${studentName}، كيف شعرت وأنت تكتب في الدفتر؟ (😊 أو 🙂 أو 🥺)`);
+            alert(`بارك الله فيك! كتابتك جهد مبارك ${feeling ? 'وأنا سعيد بمشاعرك' : ''} 🌟`);
         }
 
         function showFinalReport() {
             const accuracy = totalAttempts > 0 ? Math.round((correctAnswers / totalAttempts) * 100) : 100;
             const reportHTML = `
-                <strong>تقرير الحصة التربوي لـ ${parentName}:</strong><br><br>
+                <strong>تقرير الحصة التربوي الشامل لـ ${parentName}:</strong><br><br>
                 • نجوم الجهد والبركة: ${toEasternNum(Math.floor(effortStars))} من ٢٠<br>
                 • الإجابات الصحيحة: ${toEasternNum(correctAnswers)} من ${toEasternNum(totalAttempts)}<br>
                 • نسبة التقدم: ${toEasternNum(accuracy)}٪<br>
-                • المستوى النهائي: ${effortStars < 8 ? "مبتدئ" : effortStars < 15 ? "ماهر" : "بطل الجمع"}<br><br>
+                • المستوى النهائي: ${effortStars < 7 ? "مبتدئ" : effortStars < 14 ? "ماهر" : "بطل الجمع 🌟"}<br><br>
                 يا ${studentName}، أنت رائع! كل محاولة رفعتك درجة عند الله.<br>
-                اقتراح للبيت: جربوا جمع التفاح أو الحلوى معًا واذكروا الله.
+                اقتراح منزلي: جربوا جمع الأشياء اليومية مع ذكر الله معًا.
             `;
             document.getElementById("finalReport").innerHTML = reportHTML;
         }
 
         function showHelp(type) {
-            if (type === "nour") {
-                alert(`🧠 الحكيم نور:\nيا ${studentName}، الصبر طريق الفهم، والله يرى جهدك ويباركه. خذ وقتك يا غالي.`);
-            } else if (type === "teacher") {
-                alert(`📖 المعلم محمد:\nدعنا نجرب: ٤ + ٥ = ٩\nهل تريد مثالاً آخر ببطء؟`);
-            } else if (type === "parent") {
-                alert(`❤️ ${parentName}:\nأنا فخور بك جدًا يا ${studentName}، استمر أنت مميز والله يحفظك.`);
-            }
+            if (type === "nour") alert(`🧠 الحكيم نور:\nيا ${studentName}، الصبر طريق الفهم، والله يرى جهدك ويباركه. خذ وقتك يا غالي.`);
+            else if (type === "teacher") alert(`📖 المعلم محمد:\nدعنا نجرب: ٤ + ٥ = ٩\nاستخدم إطار العشرة إذا احتجت.`);
+            else if (type === "parent") alert(`❤️ ${parentName}:\nأنا فخور بك جدًا يا ${studentName}، استمر أنت مميز والله يحفظك.`);
         }
 
         function toggleFullscreen() {
