@@ -45,9 +45,20 @@
         .progress { height: 100%; background: linear-gradient(90deg, #4caf50, #8bc34a); transition: width 1.2s ease; }
         .feedback { font-size: 1.85em; margin: 32px 0; min-height: 110px; text-align: center; line-height: 1.5; }
         .stars { font-size: 2.6em; }
-        .ten-frame { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; width: 340px; margin: 28px auto; }
-        .frame-cell { width: 56px; height: 56px; border: 4px solid #81c784; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2.4em; background: #f1f8e9; transition: all 0.5s; }
-        .filled { background: #c8e6c9 !important; transform: scale(1.15); box-shadow: 0 0 15px #4caf50; }
+        .ten-frame { 
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; 
+            width: 340px; margin: 28px auto; 
+        }
+        .frame-cell { 
+            width: 56px; height: 56px; border: 4px solid #81c784; border-radius: 15px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 2.4em; background: #f1f8e9; transition: all 0.5s; 
+        }
+        .filled { 
+            background: #c8e6c9 !important; 
+            transform: scale(1.15); 
+            box-shadow: 0 0 15px #4caf50; 
+        }
         .story-text { font-size: 1.65em; line-height: 1.7; color: #2c3e50; }
     </style>
 </head>
@@ -65,7 +76,7 @@
             </div>
             
             <div style="margin: 55px 0;">
-                <label style="font-size: 1.65em; display: block; margin: 22px 0 12px;">اسم ولي الأمر الكريم (الذي يشجعك):</label>
+                <label style="font-size: 1.65em; display: block; margin: 22px 0 12px;">اسم ولي الأمر الكريم:</label>
                 <input type="text" id="parentName" placeholder="اسم الأب أو الأم..." style="width: 85%; padding: 22px; border-radius: 22px; border: 4px solid #4caf50;">
             </div>
             
@@ -122,59 +133,11 @@
         let timer = null;
 
         const stages = [
-            { 
-                title: "بداية المغامرة", 
-                content: `<div class="story-text"><h2 style="color:#1565c0;">يا {student} البطل الشجاع!</h2>
-                          <p>في يوم مشمس، نزل ملاك صغير إلى حديقتك وقال: «يا بطل، الله يريدك أن تجمع ١٨ نجمة سحرية من السماء لتكمل مهمة نبيلة!»</p>
-                          <p>أول مهمة: فهم سر «الجمع». تفاحة واحدة 🍎 + تفاحة أخرى 🍎 = كم تفاحة؟</p>
-                          <p style="font-size:2.9em; color:#4caf50; text-align:center; margin:40px 0;">١ + ١ = ٢</p>
-                          <p>كل خطوة تتقدم بها في المغامرة هي عبادة يباركها الله ❤️</p></div>` 
-            },
-            { 
-                title: "المهمة الثانية: عبور الوادي", 
-                content: `<div class="story-text"><h2>وصل البطل {student} إلى وادي الأرقام...</h2>
-                          <p>ليعبر الوادي، يجب أن يجمع الأرقام بذكاء. ساعده يا بطل!</p>
-                          <div style="font-size:2.8em; text-align:center; margin:45px 0;">
-                              <span id="question">٣ + ٤ = </span>
-                              <input type="text" id="answerInput" maxlength="2">
-                          </div>
-                          <div class="feedback" id="feedback"></div>
-                          <button onclick="checkMathAnswer()">أرسل الإجابة وتابع المغامرة</button></div>` 
-            },
-            { 
-                title: "المهمة الثالثة: جمع النجوم السحرية ✨", 
-                content: `<div class="story-text"><h2>الآن وصل البطل إلى غابة النجوم السحرية!</h2>
-                          <p>ساعد {student} البطل على جمع النجوم باستخدام إطار العشرة السحري.</p>
-                          <p id="gameScore" style="font-size:2.4em; color:#ff9800;">النجوم التي جمعها البطل: ٠</p>
-                          <div id="starsContainer" style="font-size:5em; text-align:center; min-height:210px;"></div>
-                          <div id="tenFrame" class="ten-frame"></div>
-                          <div style="margin:35px 0; font-size:2.4em; text-align:center;">
-                              <span id="gameQuestion"></span>
-                              <input type="text" id="gameAnswer" maxlength="2">
-                          </div>
-                          <button onclick="checkGameAnswer()">أجب وأضف نجمة للبطل</button>
-                          <button onclick="resetGame()">ابدأ المهمة من جديد</button></div>` 
-            },
-            { 
-                title: "المهمة الرابعة: الكتابة في دفتر السحر", 
-                content: `<div class="story-text"><h2>وصل البطل {student} إلى قلعة الحكمة...</h2>
-                          <p>لفتح باب القلعة، يجب أن يكتب في دفتر السحر الحقيقي:</p>
-                          <p style="font-size:1.85em; margin:32px 0;">١. ٥ + ٦ = ؟</p>
-                          <p style="font-size:1.85em; margin:32px 0;">٢. ٨ + ٧ = ؟</p>
-                          <p style="font-size:1.85em; margin:32px 0;">٣. ٩ + ٩ = ؟</p>
-                          <p style="color:#4caf50; font-size:1.65em;">اكتب في دفترك الحقيقي ثم اضغط الزر</p>
-                          <button onclick="finishNotebook()">أنا انتهيت من الكتابة في دفتر السحر</button></div>` 
-            },
-            { 
-                title: "نهاية المغامرة المباركة", 
-                content: `<div class="story-text" style="text-align:center;">
-                          <h2 style="color:#1565c0;">تهانينا يا بطل {student}!</h2>
-                          <p style="font-size:2.1em;">لقد أكملت المغامرة بنجاح، وجمعت النجوم ببركة الله.</p>
-                          <p>كل خطوة كانت عبادة، وكل صبر كان بابًا للرحمة.</p>
-                          <div id="finalReport" style="background:#f0f8ff; padding:35px; border-radius:28px; margin:40px 0; font-size:1.55em; line-height:1.75;"></div>
-                          <p style="font-size:2.4em; color:#4caf50;">الله معك دائمًا، والصبر مفتاح كل نصر 🌟</p>
-                          </div>` 
-            }
+            { title: "بداية المغامرة", content: `<div class="story-text"><h2 style="color:#1565c0;">يا {student} البطل الشجاع!</h2><p>في يوم مشمس، نزل ملاك صغير إلى حديقتك وقال: «يا بطل، الله يريدك أن تجمع ١٨ نجمة سحرية!»</p><p>أول مهمة: فهم سر الجمع. تفاحة 🍎 + تفاحة 🍎 = كم تفاحة؟</p><p style="font-size:2.9em; color:#4caf50; text-align:center; margin:40px 0;">١ + ١ = ٢</p><p>كل خطوة تتقدم بها هي عبادة يباركها الله ❤️</p></div>` },
+            { title: "عبور وادي الأرقام", content: `<div class="story-text"><h2>وصل البطل {student} إلى وادي الأرقام...</h2><p>ليعبر الوادي، ساعده في الجمع:</p><div style="font-size:2.8em; text-align:center; margin:45px 0;"><span id="question">٣ + ٤ = </span><input type="text" id="answerInput" maxlength="2"></div><div class="feedback" id="feedback"></div><button onclick="checkMathAnswer()">أرسل الإجابة وتابع المغامرة</button></div>` },
+            { title: "غابة النجوم السحرية ✨", content: `<div class="story-text"><h2>الآن وصل البطل إلى غابة النجوم السحرية!</h2><p>ساعد {student} البطل على جمع النجوم باستخدام إطار العشرة السحري.</p><p id="gameScore" style="font-size:2.4em; color:#ff9800;">النجوم التي جمعها البطل: ٠</p><div id="starsContainer" style="font-size:5em; text-align:center; min-height:210px;"></div><div id="tenFrame" class="ten-frame"></div><div style="margin:35px 0; font-size:2.4em; text-align:center;"><span id="gameQuestion"></span><input type="text" id="gameAnswer" maxlength="2"></div><button onclick="checkGameAnswer()">أجب وأضف نجمة للبطل</button><button onclick="resetGame()">ابدأ المهمة من جديد</button></div>` },
+            { title: "قلعة الحكمة", content: `<div class="story-text"><h2>وصل البطل {student} إلى قلعة الحكمة...</h2><p>لفتح الباب، اكتب في دفتر السحر الحقيقي:</p><p style="font-size:1.85em; margin:32px 0;">١. ٥ + ٦ = ؟</p><p style="font-size:1.85em; margin:32px 0;">٢. ٨ + ٧ = ؟</p><p style="font-size:1.85em; margin:32px 0;">٣. ٩ + ٩ = ؟</p><button onclick="finishNotebook()">أنا انتهيت من الكتابة في دفتر السحر</button></div>` },
+            { title: "نهاية المغامرة المباركة", content: `<div class="story-text" style="text-align:center;"><h2 style="color:#1565c0;">تهانينا يا بطل {student}!</h2><p style="font-size:2.1em;">لقد أكملت المغامرة بنجاح، وجمعت النجوم ببركة الله.</p><div id="finalReport" style="background:#f0f8ff; padding:35px; border-radius:28px; margin:40px 0; font-size:1.55em; line-height:1.75;"></div><p style="font-size:2.4em; color:#4caf50;">الله معك دائمًا، والصبر مفتاح كل نصر 🌟</p></div>` }
         ];
 
         function startLesson() {
@@ -215,7 +178,7 @@
 
             if (consecutiveErrors >= 3 && currentDifficulty > 1) {
                 currentDifficulty--;
-                alert(`لا تقلق يا ${studentName} البطل، حتى الأبطال يأخذون خطوة صغيرة أحيانًا. الله معك`);
+                alert(`لا تقلق يا ${studentName} البطل، حتى الأبطال يأخذون خطوة صغيرة. الله معك`);
             }
         }
 
@@ -228,7 +191,7 @@
             document.getElementById("nextBtn").disabled = true;
             clearTimeout(timer);
             const waitTime = (currentStage === 2) ? 18000 : 10000;
-            timer = setTimeout(() => { document.getElementById("nextBtn").disabled = false; }, waitTime);
+            timer = setTimeout(() => document.getElementById("nextBtn").disabled = false, waitTime);
 
             if (currentStage === 1) generateMathQuestion();
             if (currentStage === 2) { generateGameQuestion(); drawTenFrame(0); }
@@ -246,7 +209,7 @@
             showStage();
         }
 
-        // باقي الدوال (Math, Game, Notebook, Report, Help) نفسها مع تعديل بسيط لتناسب أسلوب القصة
+        // مرحلة ٢
         let currentMathAns = 0;
         function generateMathQuestion() {
             const max = 5 + currentDifficulty * 5;
@@ -264,14 +227,15 @@
 
             if (inputNum === currentMathAns) {
                 addEffortStar(true);
-                fb.innerHTML = `✅ ممتاز يا ${studentName} البطل! لقد عبرت الوادي بنجاح، الله يبارك شجاعتك ✨`;
+                fb.innerHTML = `✅ ممتاز يا ${studentName} البطل! عبرت الوادي بنجاح، الله يبارك شجاعتك ✨`;
                 setTimeout(generateMathQuestion, 2300);
             } else {
                 addEffortStar(false);
-                fb.innerHTML = `👍 حاول مرة أخرى يا بطل، كل خطوة تقربك من النصر والله معك`;
+                fb.innerHTML = `👍 حاول مرة أخرى يا بطل، كل خطوة تقربك من النصر`;
             }
         }
 
+        // مرحلة ٣ - إطار العشرة المصحح
         let currentGameAns = 0;
         function generateGameQuestion() {
             const a = Math.floor(Math.random() * 9) + 3;
@@ -299,7 +263,7 @@
                 document.getElementById("starsContainer").innerHTML += "✨ ";
                 document.getElementById("gameScore").textContent = `النجوم التي جمعها البطل: ${toEasternNum(Math.floor(effortStars))}`;
                 drawTenFrame(Math.min(10, currentGameAns));
-                alert(`🎉 رائع يا ${studentName} البطل! لقد جمعت نجمة جديدة بذكائك، الله يباركك`);
+                alert(`🎉 رائع يا ${studentName} البطل! جمعت نجمة جديدة بذكائك، الله يباركك`);
                 setTimeout(generateGameQuestion, 2000);
             } else {
                 addEffortStar(false);
@@ -322,20 +286,19 @@
             const accuracy = totalAttempts > 0 ? Math.round((correctAnswers / totalAttempts) * 100) : 100;
             const reportHTML = `
                 <strong>تقرير مغامرة البطل لـ ${parentName}:</strong><br><br>
-                • نجوم البركة التي جمعها {student}: ${toEasternNum(Math.floor(effortStars))} من ٢٠<br>
+                • نجوم البركة التي جمعها ${studentName}: ${toEasternNum(Math.floor(effortStars))} من ٢٠<br>
                 • المهام الناجحة: ${toEasternNum(correctAnswers)} من ${toEasternNum(totalAttempts)}<br>
                 • نسبة تقدم البطل: ${toEasternNum(accuracy)}٪<br>
                 • مستوى البطل النهائي: ${effortStars < 7 ? "بطل مبتدئ" : effortStars < 14 ? "بطل ماهر" : "بطل أسطوري 🌟"}<br><br>
-                يا ${studentName} البطل، أنت رائع! كل خطوة في المغامرة كانت عبادة رفعتك درجة عند الله.<br>
-                اقتراح للمنزل: استمروا في مغامرات الجمع اليومية مع ذكر الله.
-            `.replace(/{student}/g, studentName);
+                يا ${studentName} البطل، أنت رائع! كل خطوة في المغامرة كانت عبادة رفعتك درجة عند الله.
+            `;
             document.getElementById("finalReport").innerHTML = reportHTML;
         }
 
         function showHelp(type) {
-            if (type === "nour") alert(`🧠 الحكيم نور:\nيا ${studentName} البطل، الصبر مفتاح كل نصر في المغامرة. الله يرى جهدك ويباركه.`);
+            if (type === "nour") alert(`🧠 الحكيم نور:\nيا ${studentName} البطل، الصبر مفتاح كل نصر. الله يرى جهدك ويباركه.`);
             else if (type === "teacher") alert(`📖 المعلم محمد:\nدعنا نساعد البطل: ٤ + ٥ = ٩\nاستخدم إطار العشرة يا بطل.`);
-            else if (type === "parent") alert(`❤️ ${parentName}:\nأنا فخور جدًا بك يا بطل ${studentName}، استمر أنت شجاع والله يحفظك.`);
+            else if (type === "parent") alert(`❤️ ${parentName}:\nأنا فخور بك جدًا يا بطل ${studentName}، استمر أنت شجاع!`);
         }
 
         function toggleFullscreen() {
